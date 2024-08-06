@@ -132,7 +132,6 @@ int main()
         }
         else
         {
-            // Parent process waits for the child to complete
             wait(NULL);
         }
     }
