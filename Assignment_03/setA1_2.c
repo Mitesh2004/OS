@@ -62,6 +62,9 @@ void process()
 	int time = jobs[0].at;
 	for (j = 0; j < n; j++) 
 	{
+		if(jobs[j].at>time){
+			printf(" %d-%d Idle |",time,jobs[j].at);
+		}
 		jobs[j].st = time;
 		printf("| %d %s ", jobs[j].st, jobs[j].name);
 		time += jobs[j].tbt;
