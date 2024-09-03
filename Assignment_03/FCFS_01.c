@@ -50,20 +50,20 @@ void gantchart(struct pro p[], int n) {
     for (int i = 0; i < n; i++) {
         printf("\tP%d\t|", p[i].no);
     }
-    printf("\n0\t");
+    printf("\n0");
     for (int i = 0; i < n; i++) {
-        printf("\t%d\t", p[i].ct);
+        printf("\t\t%d", p[i].ct);
     }
     printf("\n");
 }
 
 void output(struct pro p[], int n) {
     float avgtat = 0, avgwt = 0;
-    printf("\nProcessNo\tAT\tBT\tCT\tTAT\tWT\tRT\n");
+    printf("\nProcessNo\tAT\tBT\tCT\tTAT\tWT\n");
     for (int i = 0; i < n; i++) {
         avgtat += p[i].tat;
         avgwt += p[i].wt;
-        printf("P%d\t\t%d\t%d\t%d\t%d\t%d\t%d\n", p[i].no, p[i].at, p[i].bt, p[i].ct, p[i].tat, p[i].wt, p[i].tat - p[i].bt);
+        printf("P%d\t\t%d\t%d\t%d\t%d\t%d\n", p[i].no, p[i].at, p[i].bt, p[i].ct, p[i].tat, p[i].wt);
     }
     avgtat /= n;
     avgwt /= n;
