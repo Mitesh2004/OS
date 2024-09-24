@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-// #include <sys/wait.h>
+#include <sys/wait.h>
 
 // Function to count characters, words, or lines in a file
 void count(char c, char *fn)
@@ -50,7 +50,7 @@ int main()
             count(s2[0], s3);
         }
 
-        // while (wait(NULL) > 0);
+        while (wait(NULL) > 0);
     }
 
     return 0;
