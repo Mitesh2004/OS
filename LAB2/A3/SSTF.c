@@ -1,51 +1,56 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>  // Use INT_MAX instead of MIN
 
-#define MIN 999999
+int main() {
+    int i, j;
+    int n, head, total_seek_time = 0, temp, min_seek, min_idx;
 
-int main(){
-	int i,j;
-	int n,head,total_seek_time=0,temp, min_seek, min_idx;
+    // Input: Number of disk requests
+    printf("Enter no. of disk requests: ");
+    scanf("%d", &n);
+    int request[n], visited[n];
 
-	// i/p no of disk requests
-	printf("Enter no. of disk requests: ");
-	scanf("%d",&n);
-	int request[n],visited[n];
+    // Input: Disk request queue
+    printf("Enter disk request queue: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &request[i]);
+        visited[i] = 0; // Mark all as unvisited
+    }
 
-	// i/p disk request queue
-	printf("Enter disk request queue: ");
-	for( i=0;i<n;i++){
-		scanf("%d",&request[i]);
-		visited[i]=0; //initial
-	}
+    // Input: Initial head position
+    printf("Enter initial head: ");
+    scanf("%d", &head);
 
-	// i/p initial head pos
-	printf("Enter initial head: ");
-	scanf("%d",&head);
+    // Display seek sequence
+    printf("SEEK SEQUENCE: %d", head);
+    for (i = 0; i < n; i++) {
+        // Find closest unvisited request
+        min_seek = INT_MAX;
+        min_idx = -1; // Initialize properly
 
-	//display seek sequnence
-	printf("SEEK SEQUENCE: %d",head);
-	for(i=0;i<n;i++){
-		//find closest unvisited request
-          	min_seek=MIN;
-		for(j=0;j<n;j++){
-			if(visited[j]==0){
-				temp=abs(request[j]-head);
-				if(temp <min_seek){
-					min_seek=temp;
-					min_idx=j;
-				}
-			}
-		}
-		total_seek_time += min_seek;
-		head=request[min_idx];
-		visited[min_idx]=1;
-		printf("->%d",head);
-	}
+        for (j = 0; j < n; j++) {
+            if (!visited[j]) { // If request is unvisited
+                temp = abs(request[j] - head);
+                if (temp < min_seek) {
+                    min_seek = temp;
+                    min_idx = j;
+                }
+            }
+        }
 
-	// o/p 
-	printf("\n\ntotal seek time: %d\n",total_seek_time);
-	printf("Average seek time: %.2f\n",(float)total_seek_time/n);
+        // Move head to the closest request
+        total_seek_time += min_seek;
+        head = request[min_idx];
+        visited[min_idx] = 1; // Mark as visited
+        printf(" -> %d", head);
+    }
 
+    // Output: Total and Average Seek Time
+    printf("\n\nTotal seek time: %d\n", total_seek_time);
+    printf("Average seek time: %.2f\n", (float)total_seek_time / n);
+
+    return 0;
 }
+
 
