@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct File { char name[20]; int size, blocks[20]; int index; } files[100];
+struct File { char name[20]; int size, blocks[20]; } files[100];
 int *disk, total, count;
 
 // Find free block
-int find() { 
-    for (int i = 0; i < total; i++) 
-        if (!disk[i]) return i; 
-    return -1; 
+int find() {
+    for (int i = 0; i < total; i++)
+        if (!disk[i]) return i;
+    return -1;
 }
 
-// Create a file (Sequential style allocation)
+// Create file
 void create_file() {
     struct File f;
     printf("File Name and Size: ");
@@ -26,17 +26,16 @@ void create_file() {
         f.blocks[i] = b;
     }
 
-    if (i < f.size) { // Not enough space
+    if (i < f.size) {
         for (int j = 0; j < i; j++) disk[f.blocks[j]] = 0;
         printf("No Space!\n");
     } else {
-        f.index = f.blocks[0]; // For index display
         files[count++] = f;
         printf("File '%s' stored.\n", f.name);
     }
 }
 
-// Delete a file
+// Delete file
 void delete_file() {
     char name[20];
     printf("Delete File: ");
@@ -54,9 +53,12 @@ void delete_file() {
     }
 }
 
-// Sequential Allocation Display
+// Sequential File Allocation Display
 void display_sequential() {
-    printf("\nSequential Allocation View:\nFile\tStart\tEnd\n");
+    printf("\n--- Sequential File Allocation ---\n");
+    printf("Bit Vector: ");
+    for (int i = 0; i < total; i++) printf("%d", disk[i]);
+    printf("\nFile\tStart\tEnd\n");
     for (int i = 0; i < count; i++) {
         int start = files[i].blocks[0];
         int end = files[i].blocks[files[i].size - 1];
@@ -64,9 +66,12 @@ void display_sequential() {
     }
 }
 
-// Linked Allocation Display
+// Linked File Allocation Display
 void display_linked() {
-    printf("\nLinked Allocation View:\nFile\tBlock Chain\n");
+    printf("\n--- Linked File Allocation ---\n");
+    printf("Bit Vector: ");
+    for (int i = 0; i < total; i++) printf("%d", disk[i]);
+    printf("\nFile\tBlock Chain\n");
     for (int i = 0; i < count; i++) {
         printf("%s\t", files[i].name);
         for (int j = 0; j < files[i].size; j++) {
@@ -77,13 +82,17 @@ void display_linked() {
     }
 }
 
-// Indexed Allocation Display
+// Indexed File Allocation Display
 void display_indexed() {
-    printf("\nIndexed Allocation View:\nFile\tIndex Block\tBlocks\n");
+    printf("\n--- Indexed File Allocation ---\n");
+    printf("Bit Vector: ");
+    for (int i = 0; i < total; i++) printf("%d", disk[i]);
+    printf("\nFile\tIndex Block\tBlocks\n");
     for (int i = 0; i < count; i++) {
-        printf("%s\t%d\t\t", files[i].name, files[i].index);
-        for (int j = 0; j < files[i].size; j++) 
+        printf("%s\t%d\t\t", files[i].name, files[i].blocks[0]);
+        for (int j = 1; j < files[i].size; j++) {
             printf("%d ", files[i].blocks[j]);
+        }
         printf("\n");
     }
 }
@@ -95,7 +104,7 @@ int main() {
 
     int ch;
     while (1) {
-        printf("\n1.Create 2.Delete 3.Sequential View 4.Linked View 5.Indexed View 0.Exit: ");
+        printf("\n1. Create File\n2. Delete File\n3. Sequential Display\n4. Linked Display\n5. Indexed Display\n0. Exit\nChoice: ");
         scanf("%d", &ch);
 
         switch (ch) {
@@ -104,11 +113,10 @@ int main() {
             case 3: display_sequential(); break;
             case 4: display_linked(); break;
             case 5: display_indexed(); break;
-            case 0: 
+            case 0:
                 free(disk);
                 return 0;
             default: printf("Invalid Choice!\n");
         }
     }
 }
-
