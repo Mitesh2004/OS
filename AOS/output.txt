@@ -1,0 +1,2 @@
+This text will be written to the file!
+Hello, file redirection works!

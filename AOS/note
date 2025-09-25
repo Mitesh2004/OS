@@ -1,0 +1,6 @@
+Code golf, or dense code, is a style of programming where the primary goal is to write a program that uses the fewest characters possible to solve a given problem. 
+It's a recreational activity and competition, named after the sport of golf where a lower score is better.
+This style of coding focuses on making the code as compact as possible, often by omitting optional parentheses, grouping multiple statements on a single line, and using terse variable names. 
+While it can be challenging to read, it's a common practice in competitive programming and code golf competitions where the goal is to solve a problem with the shortest possible code.
+
+
